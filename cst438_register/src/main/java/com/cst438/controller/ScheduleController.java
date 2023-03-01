@@ -103,7 +103,7 @@ public class ScheduleController {
 		
 		String student_email = "test@csumb.edu";   // student's email 
 		
-		// TODO  check that today's date is not past deadline to drop course.
+		// TODO  check that today's date is not past deadline to drop course. Week 5
 		
 		Enrollment enrollment = enrollmentRepository.findById(enrollment_id).orElse(null);
 		
