@@ -64,6 +64,7 @@ public class StudentController {
 		       student.setStatusCode(1);
 		} else {
 		       System.out.println("Student id not found "+student_id);
+		       throw  new ResponseStatusException( HttpStatus.BAD_REQUEST, "Student not found. " );
 		}
 	}
 	
@@ -80,6 +81,7 @@ public class StudentController {
 		       student.setStatusCode(0);
 		} else {
 		       System.out.println("Student id not found "+student_id);
+		       throw  new ResponseStatusException( HttpStatus.BAD_REQUEST, "Student not found. " );
 		}
 	}
 	
