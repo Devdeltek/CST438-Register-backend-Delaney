@@ -8,6 +8,9 @@ import com.cst438.domain.Enrollment;
 import com.cst438.domain.ScheduleDTO;
 import com.cst438.domain.Student;
 import com.cst438.domain.StudentRepository;
+
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,26 +30,22 @@ public class StudentController {
 	 */
 	@PostMapping("/student")
 	@Transactional
-	public Student addStudent( @RequestBody String student_email, String student_name  ) { 
+	public Student addStudent( @RequestBody Map<String, String> json) { 
+		String student_email = json.get("student_email");
+		String student_name = json.get("student_name");
 
 		
 		Student student = studentRepository.findByEmail(student_email);
 		
-		// student.status
-		// = 0  ok to register
-		// != 0 hold on registration.  student.status may have reason for hold.
-		
 		if (student== null) {
-			// TODO check that today's date is not past add deadline for the course.
 			Student result = new Student();
 			result.setName(student_name);
 			result.setEmail(student_email);
 			result.setStatus(null);
 			result.setStatusCode(0);
+			Student ret  = studentRepository.save(result);
 			
-			gradebookService.enrollStudent(student_email, student.getName(), course.getCourse_id());
-			
-			return student;
+			return ret;
 		} else {
 			throw  new ResponseStatusException( HttpStatus.BAD_REQUEST, "Student already Exists" );
 		}
